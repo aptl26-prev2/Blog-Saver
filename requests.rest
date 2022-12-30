@@ -1,0 +1,73 @@
+GET http://localhost:3006/api/blogs
+
+###
+POST http://localhost:3006/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InctcGFzc3dvcmQiLCJpZCI6IjYzYWYwMmFjNGE0ODI5NDI4NmEzMmZlMCIsImlhdCI6MTY3MjQxNTAwMSwiZXhwIjoxNjcyNDE4NjAxfQ.Hc_gXqpyXFYxTmSozQJ9UH7lKyORSOL2mdf1BDqeLU0
+
+{
+  "title": "Test Delete",
+  "author": "Aghyad Deeb",
+  "url": "http://www.google.com",
+  "likes": "40"
+}
+
+### 
+DELETE http://localhost:3006/api/blogs/63af0852f8f12bdffbbcd4fd
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InctcGFzc3dvcmQiLCJpZCI6IjYzYWYwMmFjNGE0ODI5NDI4NmEzMmZlMCIsImlhdCI6MTY3MjQxNTAwMSwiZXhwIjoxNjcyNDE4NjAxfQ.Hc_gXqpyXFYxTmSozQJ9UH7lKyORSOL2mdf1BDqeLU0
+
+
+###
+POST http://localhost:3006/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Second Blog",
+  "author": "Mayar Deeb",
+  "url": "http://www.microsoft.com",
+  "likes": "420"
+}
+
+###
+POST http://localhost:3006/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Third Blog",
+  "author": "Mazen Deeb",
+  "url": "http://www.facebook.com",
+  "likes": "42230"
+}
+
+###
+POST http://localhost:3006/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Fourth Blog",
+  "author": "Homam Deeb",
+  "url": "http://www.twitter.com",
+  "likes": "430"
+}
+
+###
+GET http://localhost:3006/api/users
+
+###
+POST http://localhost:3006/api/users
+Content-Type: application/json
+
+{
+      "name": "w-password",
+      "username": "w-password",
+      "password": "password"
+}
+
+###
+POST http://localhost:3006/api/login
+Content-Type: application/json
+
+{
+  "username": "w-password",
+  "password": "password"
+}

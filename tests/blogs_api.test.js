@@ -42,116 +42,133 @@ test('unique identifier is "id"', async () => {
   })
 })
 
-test('post request adds to database', async () => {
-  const blogsAtStart = await helper.blogsInDb()
-  const randomUser = (await User.find({}))[0]
-  const token = jwt.sign(
-    {
-      username: randomUser.username,
-      id: randomUser._id
-    },
-    process.env.SECRET
-  )
+describe('valid blogs get added', () => {
+  test('post request adds to database', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const randomUser = (await User.find({}))[0]
+    const token = jwt.sign(
+      {
+        username: randomUser.username,
+        id: randomUser._id
+      },
+      process.env.SECRET
+    )
 
-  const newBlog = {
-    title: 'Blog from post test',
-    author: 'Aghayd deeb from test',
-    url: 'http://someurl.com/',
-    likes: 50
-  }
+    const newBlog = {
+      title: 'Blog from post test',
+      author: 'Aghayd deeb from test',
+      url: 'http://someurl.com/',
+      likes: 50
+    }
 
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .set('Authorization', `bearer ${token}`)
-    .expect(201)
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .set('Authorization', `bearer ${token}`)
+      .expect(201)
 
-  const blogsAtEnd = await helper.blogsInDb()
+    const blogsAtEnd = await helper.blogsInDb()
 
-  expect(blogsAtEnd).toHaveLength(blogsAtStart.length + 1)
-  expect(blogsAtEnd.map((blog) => blog.title)).toContain('Blog from post test')
+    expect(blogsAtEnd).toHaveLength(blogsAtStart.length + 1)
+    expect(blogsAtEnd.map((blog) => blog.title)).toContain('Blog from post test')
+  })
+
+  test('post request with no likes defaults to 0', async () => {
+    const newBlog = {
+      title: 'Blog from default likes test',
+      author: 'test author',
+      url: 'http://testurl.com'
+    }
+    const randomUser = (await User.find({}))[0]
+    const token = jwt.sign(
+      {
+        username: randomUser.username,
+        id: randomUser._id
+      },
+      process.env.SECRET
+    )
+
+    const response = await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .set('Authorization', `bearer ${token}`)
+      .expect(201)
+
+    expect(response.body.likes).toBe(0)
+  })
 })
 
-test('post request without title fails', async () => {
-  const blogsAtStart = await helper.blogsInDb()
+describe('invalid blogs do not get added', () => {
+  test('post request without title fails', async () => {
+    const blogsAtStart = await helper.blogsInDb()
 
-  const blogNoTitle = {
-    author: 'test author',
-    url: 'http://testurl.com',
-    likes: 45
-  }
-  const randomUser = (await User.find({}))[0]
-  const token = jwt.sign(
-    {
-      username: randomUser.username,
-      id: randomUser._id
-    },
-    process.env.SECRET
-  )
+    const blogNoTitle = {
+      author: 'test author',
+      url: 'http://testurl.com',
+      likes: 45
+    }
+    const randomUser = (await User.find({}))[0]
+    const token = jwt.sign(
+      {
+        username: randomUser.username,
+        id: randomUser._id
+      },
+      process.env.SECRET
+    )
 
-  await api
-    .post('/api/blogs')
-    .send(blogNoTitle)
-    .set('Authorization', `bearer ${token}`)
-    .expect(400)
+    await api
+      .post('/api/blogs')
+      .send(blogNoTitle)
+      .set('Authorization', `bearer ${token}`)
+      .expect(400)
 
-  const blogsAtEnd = await helper.blogsInDb()
+    const blogsAtEnd = await helper.blogsInDb()
 
-  expect(blogsAtEnd).toHaveLength(blogsAtStart.length)
-  expect(blogsAtEnd).toEqual(blogsAtStart)
-})
+    expect(blogsAtEnd).toHaveLength(blogsAtStart.length)
+    expect(blogsAtEnd).toEqual(blogsAtStart)
+  })
 
-test('post request without url fails', async () => {
-  const blogsAtStart = await helper.blogsInDb()
+  test('post request without url fails', async () => {
+    const blogsAtStart = await helper.blogsInDb()
 
-  const blogNoUrl = {
-    title: 'test title',
-    author: 'test author',
-    likes: 45
-  }
-  const randomUser = (await User.find({}))[0]
-  const token = jwt.sign(
-    {
-      username: randomUser.username,
-      id: randomUser._id
-    },
-    process.env.SECRET
-  )
+    const blogNoUrl = {
+      title: 'test title',
+      author: 'test author',
+      likes: 45
+    }
+    const randomUser = (await User.find({}))[0]
+    const token = jwt.sign(
+      {
+        username: randomUser.username,
+        id: randomUser._id
+      },
+      process.env.SECRET
+    )
 
-  await api
-    .post('/api/blogs')
-    .send(blogNoUrl)
-    .set('Authorization', `bearer ${token}`)
-    .expect(400)
+    await api
+      .post('/api/blogs')
+      .send(blogNoUrl)
+      .set('Authorization', `bearer ${token}`)
+      .expect(400)
 
-  const blogsAtEnd = await helper.blogsInDb()
+    const blogsAtEnd = await helper.blogsInDb()
 
-  expect(blogsAtEnd).toHaveLength(blogsAtStart.length)
-  expect(blogsAtEnd).toEqual(blogsAtStart)
-})
+    expect(blogsAtEnd).toHaveLength(blogsAtStart.length)
+    expect(blogsAtEnd).toEqual(blogsAtStart)
+  })
 
-test('post request with no likes defaults to 0', async () => {
-  const newBlog = {
-    title: 'Blog from default likes test',
-    author: 'test author',
-    url: 'http://testurl.com'
-  }
-  const randomUser = (await User.find({}))[0]
-  const token = jwt.sign(
-    {
-      username: randomUser.username,
-      id: randomUser._id
-    },
-    process.env.SECRET
-  )
+  test('post request without token with code 401', async () => {
+    const blogNoUrl = {
+      title: 'test title',
+      author: 'test author',
+      likes: 45
+    }
 
-  const response = await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .set('Authorization', `bearer ${token}`)
-    .expect(201)
-
-  expect(response.body.likes).toBe(0)
+    await api
+      .post('/api/blogs')
+      .send(blogNoUrl)
+      .expect(401)
+  })
 })
 
 test('deleting blog returns code 204 and blog is not in database', async () => {

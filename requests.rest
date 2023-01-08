@@ -3,19 +3,18 @@ GET http://localhost:3006/api/blogs
 ###
 POST http://localhost:3006/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InctcGFzc3dvcmQiLCJpZCI6IjYzYWYwMmFjNGE0ODI5NDI4NmEzMmZlMCIsImlhdCI6MTY3MjQxNTAwMSwiZXhwIjoxNjcyNDE4NjAxfQ.Hc_gXqpyXFYxTmSozQJ9UH7lKyORSOL2mdf1BDqeLU0
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InctcGFzc3dvcmQiLCJpZCI6IjYzYjU1YmQ1MTQ0NzVlMzNiMWVkOWQwOSIsImlhdCI6MTY3MzA5NDI3NywiZXhwIjoxNjczMDk3ODc3fQ.Av3oGpltUeHMLUvAN-tbXQpy7mo3ekEeAzJpz48ihnU
 
 {
   "title": "Test Delete",
   "author": "Aghyad Deeb",
-  "url": "http://www.google.com",
+  "url": "https://www.teachthought.com/education/characteristics-of-a-good-school/",
   "likes": "40"
 }
 
 ### 
-DELETE http://localhost:3006/api/blogs/63af0852f8f12bdffbbcd4fd
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InctcGFzc3dvcmQiLCJpZCI6IjYzYWYwMmFjNGE0ODI5NDI4NmEzMmZlMCIsImlhdCI6MTY3MjQxNTAwMSwiZXhwIjoxNjcyNDE4NjAxfQ.Hc_gXqpyXFYxTmSozQJ9UH7lKyORSOL2mdf1BDqeLU0
-
+DELETE http://localhost:3006/api/blogs/63af102b5cafc4ec4b1d9e74
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InctcGFzc3dvcmQiLCJpZCI6IjYzYjU1YmQ1MTQ0NzVlMzNiMWVkOWQwOSIsImlhdCI6MTY3MzA5NDI3NywiZXhwIjoxNjczMDk3ODc3fQ.Av3oGpltUeHMLUvAN-tbXQpy7mo3ekEeAzJpz48ihnU
 
 ###
 POST http://localhost:3006/api/blogs
